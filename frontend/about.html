@@ -434,17 +434,15 @@ if (loginBtn && userName) {
 }
 window.onload = function () {
 
-    const isLoggedIn = localStorage.getItem("adminLoggedIn");
+ const welcomeText = document.getElementById("welcomeText");
 
-    if(isLoggedIn === "true") {
-
-        document.getElementById("welcomeText").innerText =
-            "Welcome Admin";
-
+if (welcomeText) {
+    if (isLoggedIn === "true") {
+        welcomeText.innerText = "Welcome Admin";
     } else {
-        document.getElementById("welcomeText").innerText =
-            "Please Login";
+        welcomeText.innerText = "Please Login";
     }
+}
 };
 </script>
 </script>

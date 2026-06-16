@@ -252,15 +252,15 @@ window.onload = function () {
 
     const isLoggedIn = localStorage.getItem("adminLoggedIn");
 
-    if(isLoggedIn === "true") {
+   if(isLoggedIn === "true") {
 
-        document.getElementById("welcomeText").innerText =
-            "Welcome Admin";
+    document.getElementById("welcomeText").innerText =
+        "Welcome Admin";
 
-    } else {
-        document.getElementById("welcomeText").innerText =
-            "Please Login";
-    }
+} else {
+    document.getElementById("welcomeText").innerText =
+        "Please Login";
+}
 };
 /* INIT */
 loadAppointments();
