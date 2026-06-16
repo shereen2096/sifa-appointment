@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Medicare Plus</title>
+
+    <!-- CSS -->
+<link rel="stylesheet" href="css/login.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="nav-container">
+
+            <!-- LOGO -->
+
+            <div class="logo-section">
+
+                <img src="images/logo.png"
+                alt="logo"
+                class="logo">
+
+            </div>
+
+            <!-- NAV LINKS -->
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+
+                <li>
+                    <a href="doctor.html">All Doctors</a>
+                </li>
+
+                <li>
+                    <a href="appointment.html">Appointment</a>
+                </li>
+                
+            <li><a href="admin.html">Admin</a></li>
+<li><a href="my-appointment.html">My Appointments</a></li>
+                <li>
+                    <a href="about.html">About</a>
+                </li>
+
+                <li>
+                    <a href="contact.html">Contact</a>
+                </li>
+
+            </ul>
+
+            <!-- LOGIN BUTTON -->
+
+            <a href="login.html" class="nav-btn">
+
+                Login
+
+            </a>
+
+        </div>
+
+    </nav>
+
+    <!-- ================= LOGIN SECTION ================= -->
+
+    <section class="login-section">
+
+        <div class="login-container">
+
+            <!-- LEFT IMAGE -->
+
+            <div class="login-left">
+
+                <img src="images/login.png"
+                alt="login image">
+
+            </div>
+
+            <!-- RIGHT FORM -->
+
+            <div class="login-right">
+
+                <h1>
+                    Welcome Back
+                </h1>
+
+                <p>
+                    Login to continue your healthcare journey
+                    with Medicare Plus.
+                </p>
+
+                <!-- LOGIN FORM -->
+
+                <form class="login-form" id="loginform">
+
+    <input
+        type="email"
+        id="email"
+        placeholder="Enter Email Address"
+        required
+    >
+
+    <input
+        type="password"
+        id="password"
+        placeholder="Enter Password"
+        required
+    >
+
+    <button type="submit">
+        Login
+    </button>
+
+</form>
+
+                <!-- REGISTER -->
+
+                <div class="register-link">
+
+                    <p>
+
+                        Don't have an account?
+
+                        <a href="register.html">
+
+                            Register
+
+                        </a>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-box">
+            <img src="images/logo.png"
+            class="footer-logo">
+            <p>
+                Medicare Plus is a modern healthcare
+                appointment booking platform providing
+                trusted medical services.
+            </p>
+        </div>
+        <div class="footer-box">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="doctors.html">Doctors</a></li>
+                <li><a href="appointment.html">Appointment</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li><a href="my-appointment.html">My Appointments</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-box">
+            <h3>Contact Info</h3>
+            <p>Email: medicareplus@gmail.com</p>
+            <p>Phone: +91 9876543210</p>
+            <p>Coimbatore, Tamil Nadu</p>
+        </div>
+        <div class="footer-box">
+            <h3>Working Hours</h3>
+            <p>Monday - Friday : 8AM - 9PM</p>
+            <p>Saturday : 9AM - 7PM</p>
+            <p>Sunday : Emergency Only</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>
+            © 2026 Medicare Plus.
+            All Rights Reserved.
+        </p>
+    </div>
+</footer>
+<script>
+document.getElementById("loginform")
+.addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+
+        const response = await fetch("http://localhost:7000/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || "Login failed");
+        }
+
+        // STORE DATA
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userEmail", email);
+        localStorage.setItem("userName", result.name);
+
+        // ROLE SYSTEM
+        if (email === "admin@gmail.com") {
+            localStorage.setItem("role", "admin");
+            window.location.href = "admin.html";
+        } else {
+            localStorage.setItem("role", "user");
+            window.location.href = "index.html";
+        }
+
+        alert("Login Successful");
+
+    } catch (error) {
+        console.error(error);
+        alert("Login Failed");
+    }
+
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+
+<link rel="icon" href="images/logo.png">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f9ff;
+    margin: 0;
+}
+
+/* PAGE WRAPPER */
+.admin-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* CONTENT */
+.admin-container {
+    width: 90%;
+    margin: auto;
+    flex: 1;
+    padding: 20px;
+}
+
+/* STATS */
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.card {
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    min-width: 120px;
+    text-align: center;
+}
+
+.total { background: #0077ff; }
+.pending { background: orange; }
+.approved { background: green; }
+.rejected { background: red; }
+
+/* SEARCH */
+.search-box {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.search-box input {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+/* TABLE */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background: #0077ff;
+    color: white;
+}
+
+button {
+    cursor: pointer;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+}
+</style>
+</head>
+
+<body class="admin-page">
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="container nav-container">
+
+        <div class="logo-section">
+            <img src="images/logo.png" class="logo">
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="doctor.html">All Doctors</a></li>
+            <li><a href="appointment.html">Appointments</a></li>
+            <li><a href="admin.html">Admin</a></li>
+            <li><a href="my-appointment.html">My Appointments</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li> 
+            
+            
+        </ul>
+        </ul>
+
+        <a href="login.html" class="nav-btn">Logout</a>
+    </div>
+</nav>
+
+<script>
+if(localStorage.getItem("adminLoggedIn") !== "true"){
+    alert("Access Denied");
+    window.location.href = "admin-login.html";
+}
+</script>
+
+<div class="admin-container">
+
+<h1 style="text-align:center;">Appointment Dashboard</h1>
+
+<!-- SEARCH -->
+<div class="search-box">
+    <input type="text" id="searchInput"
+        placeholder="Search name or email..."
+        onkeyup="filterTable()">
+</div>
+
+<!-- STATS -->
+<div class="stats">
+    <div class="card total">Total<br><span id="totalCount">0</span></div>
+    <div class="card pending">Pending<br><span id="pendingCount">0</span></div>
+    <div class="card approved">Approved<br><span id="approvedCount">0</span></div>
+    <div class="card rejected">Rejected<br><span id="rejectedCount">0</span></div>
+</div>
+
+<!-- TABLE -->
+<table>
+<thead>
+<tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Doctor</th>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Status</th>
+    <th>Action</th>
+</tr>
+</thead>
+
+<tbody id="appointmentTable"></tbody>
+</table>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-box">
+            <img src="images\logo.png"
+            class="footer-logo">
+            <p>
+                Medicare Plus is a modern healthcare
+                appointment booking platform providing
+                trusted medical services.
+            </p>
+        </div>
+        <div class="footer-box">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="doctors.html">Doctors</a></li>
+                <li><a href="appointment.html">Appointment</a></li>
+                <li><a href="admin.html">Admin</a></li> 
+                <li><a href="my-appointment.html">My Appointments</a></li>  
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-box">
+            <h3>Contact Info</h3>
+            <p>Email: medicareplus@gmail.com</p>
+            <p>Phone: +91 9876543210</p>
+            <p>Coimbatore, Tamil Nadu</p>
+        </div>
+        <div class="footer-box">
+            <h3>Working Hours</h3>
+            <p>Monday - Friday : 8AM - 9PM</p>
+            <p>Saturday : 9AM - 7PM</p>
+            <p>Sunday : Emergency Only</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>
+            © 2026 Medicare Plus.
+            All Rights Reserved.
+        </p>
+    </div>
+</footer>
+
+
+<!-- SCRIPT -->
+<script>
+
+const API = "http://localhost:7000";
+let allData = [];
+
+/* LOAD DATA */
+async function loadAppointments() {
+    const res = await fetch(`${API}/appointments`);
+    allData = await res.json();
+
+    updateStats(allData);
+    renderTable(allData);
+}
+
+/* STATS */
+function updateStats(data){
+    let total = data.length;
+    let pending = 0;
+    let approved = 0;
+    let rejected = 0;
+
+    data.forEach(item => {
+        const status = item.status || "Pending";
+        if(status === "Pending") pending++;
+        else if(status === "Approved") approved++;
+        else if(status === "Rejected") rejected++;
+    });
+
+    document.getElementById("totalCount").innerText = total;
+    document.getElementById("pendingCount").innerText = pending;
+    document.getElementById("approvedCount").innerText = approved;
+    document.getElementById("rejectedCount").innerText = rejected;
+}
+
+/* TABLE */
+function renderTable(data){
+
+    const table = document.getElementById("appointmentTable");
+
+    let rows = "";
+
+    data.forEach(item => {
+
+        const status = item.status || "Pending";
+
+        rows += `
+        <tr>
+            <td>${item.fullName}</td>
+            <td>${item.email}</td>
+            <td>${item.phone}</td>
+            <td>${item.doctor}</td>
+            <td>${item.date}</td>
+            <td>${item.time}</td>
+
+            <td style="color:${
+                status === "Approved" ? "green" :
+                status === "Rejected" ? "red" :
+                "orange"
+            }">
+                ${status}
+            </td>
+
+            <td>
+                <button onclick="updateStatus('${item._id}','Approved')"
+                    style="background:green;color:white;">
+                    Approve
+                </button>
+
+                <button onclick="updateStatus('${item._id}','Rejected')"
+                    style="background:red;color:white;">
+                    Reject
+                </button>
+
+                <button onclick="deleteAppointment('${item._id}')"
+                    style="background:black;color:white;">
+                    Delete
+                </button>
+            </td>
+        </tr>
+        `;
+    });
+
+    table.innerHTML = rows;
+}
+
+/* SEARCH */
+function filterTable(){
+    const value = document.getElementById("searchInput").value.toLowerCase();
+
+    const filtered = allData.filter(item =>
+        item.fullName.toLowerCase().includes(value) ||
+        item.email.toLowerCase().includes(value)
+    );
+
+    renderTable(filtered);
+}
+
+/* UPDATE STATUS */
+async function updateStatus(id,status){
+    await fetch(`${API}/appointment-status/${id}`,{
+        method:"PUT",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({ status })
+    });
+
+    loadAppointments();
+}
+
+/* DELETE */
+async function deleteAppointment(id){
+    await fetch(`${API}/appointments/${id}`,{
+        method:"DELETE"
+    });
+
+    loadAppointments();
+}
+
+loadAppointments();
+window.onload = function () {
+
+    const isLoggedIn = localStorage.getItem("adminLoggedIn");
+
+    if(isLoggedIn === "true") {
+
+        document.getElementById("welcomeText").innerText =
+            "Welcome Admin";
+
+    } else {
+        document.getElementById("welcomeText").innerText =
+            "Please Login";
+    }
+};
+</script>
+</body>
+</html>

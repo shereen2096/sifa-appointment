@@ -1,0 +1,359 @@
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body{
+
+    background: #edf4ff;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar{
+
+    width: 100%;
+
+    background: white;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+}
+
+.nav-container{
+
+    width: 90%;
+
+    margin: auto;
+
+    height: 85px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+/* LOGO */
+
+.logo{
+
+    width: 85px;
+
+    height: auto;
+}
+
+/* NAV LINKS */
+
+.nav-links{
+
+    display: flex;
+
+    list-style: none;
+
+    gap: 35px;
+}
+
+.nav-links li a{
+
+    text-decoration: none;
+
+    color: #1e293b;
+
+    font-size: 16px;
+
+    font-weight: 500;
+
+    transition: 0.3s;
+}
+
+.nav-links li a:hover{
+
+    color: #1e88e5;
+}
+
+/* BUTTON */
+
+.nav-btn{
+
+    background: #1e88e5;
+
+    color: white;
+
+    padding: 12px 25px;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-weight: 500;
+
+    transition: 0.3s;
+}
+
+.nav-btn:hover{
+
+    background: #1565c0;
+}
+
+/* =========================
+   LOGIN SECTION
+========================= */
+
+.login-section{
+
+    width: 100%;
+
+    min-height: calc(100vh - 85px);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 50px 20px;
+}
+
+/* CONTAINER */
+
+.login-container{
+
+    width: 1100px;
+
+    background: white;
+
+    border-radius: 25px;
+
+    overflow: hidden;
+
+    display: flex;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* =========================
+   LEFT SIDE
+========================= */
+
+.login-left{
+
+    flex: 1;
+
+    background: linear-gradient(
+        to bottom right,
+        #90caf9,
+        #1e88e5
+    );
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 40px;
+}
+
+.login-left img{
+
+    width: 100%;
+
+    max-width: 420px;
+
+    object-fit: contain;
+}
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.login-right{
+
+    flex: 1;
+
+    padding: 70px 60px;
+}
+
+.login-right h1{
+
+    font-size: 50px;
+
+    color: #0f172a;
+
+    margin-bottom: 15px;
+}
+
+.login-right p{
+
+    color: #64748b;
+
+    font-size: 17px;
+
+    line-height: 1.8;
+
+    margin-bottom: 35px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.login-form{
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+/* INPUT */
+
+.login-form input{
+
+    width: 100%;
+
+    padding: 17px;
+
+    border: 1px solid #dbe3ee;
+
+    border-radius: 12px;
+
+    font-size: 16px;
+
+    outline: none;
+
+    transition: 0.3s;
+}
+
+.login-form input:focus{
+
+    border-color: #1e88e5;
+}
+
+/* BUTTON */
+
+.login-form button{
+
+    background: #1e88e5;
+
+    color: white;
+
+    border: none;
+
+    padding: 17px;
+
+    border-radius: 12px;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.login-form button:hover{
+
+    background: #1565c0;
+}
+
+/* REGISTER */
+
+.register-link{
+
+    margin-top: 25px;
+}
+
+.register-link p{
+
+    color: #64748b;
+}
+
+.register-link a{
+
+    color: #1e88e5;
+
+    text-decoration: none;
+
+    font-weight: 600;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 992px){
+
+    .login-container{
+
+        flex-direction: column;
+    }
+
+    .login-left{
+
+        display: none;
+    }
+
+    .nav-links{
+
+        display: none;
+    }
+
+    .login-right{
+
+        padding: 40px 30px;
+    }
+
+    .login-right h1{
+
+        font-size: 40px;
+    }
+}
+.footer{
+    background: #0f172a;
+    padding: 60px 0;
+}
+.footer-container{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+.footer-box{
+    flex: 1;
+}
+.footer-logo{
+    width: 90px;
+    /* height: auto; */
+    margin-bottom: 20px;
+}
+.footer-box h3{
+    color: white;
+    margin-bottom: 20px;
+}
+.footer-box p{
+    color: #cdb5e1;
+    line-height: 1.8;
+}
+.footer-box a{
+    display: block;
+    color: #cdb5e1;
+    text-decoration: none;
+    margin-bottom: 10px;
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Appointment - Medicare Plus</title>
+
+    <link rel="icon" href="images/logo.png">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="container nav-container">
+
+        <div class="logo-section">
+            <img src="images/logo.png" class="logo" alt="logo">
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="doctor.html">All Doctors</a></li>
+            <li><a href="appointment.html">Appointment</a></li>
+            <li><a href="admin.html">Admin</a></li>
+            <li><a href="my-appointment.html">My Appointments</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            
+            
+        </ul>
+
+        <a href="login.html" class="nav-btn" id="loginBtn">Login</a>
+
+    </div>
+</nav>
+
+<!-- APPOINTMENT SECTION (FULL RESTORED LAYOUT) -->
+<section class="appointment-section">
+
+    <div class="appointment-overlay"></div>
+
+    <div class="appointment-container">
+
+        <!-- LEFT SIDE -->
+        <div class="appointment-left">
+
+            <h4>MEDICARE PLUS</h4>
+
+            <h1>
+                Book Your Appointment<br>
+                With Trusted Doctors
+            </h1>
+
+            <p>
+                Schedule appointments with experienced healthcare professionals anytime,
+                anywhere with Medicare Plus.
+            </p>
+
+            <div class="appointment-features">
+                <div class="feature-item">✓ Expert Doctors</div>
+                <div class="feature-item">✓ Instant Booking</div>
+                <div class="feature-item">✓ 24/7 Support</div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT FORM -->
+        <div class="appointment-form-box">
+
+            <h2>Appointment Form</h2>
+
+            <form id="appointmentForm">
+
+                <div class="input-row">
+                    <input type="text" name="fullName" placeholder="Full Name" required>
+                    <input type="email" name="email" placeholder="Email Address" required>
+                </div>
+
+                <div class="input-row">
+                    <input type="tel" name="phone" placeholder="Phone Number" required>
+
+                    <select name="doctor" required>
+                        <option value="">Select Doctor</option>
+                        <option>Dr. John Smith</option>
+                        <option>Dr. Sarah Lee</option>
+                        <option>Dr. Emma Thompson</option>
+                    </select>
+                </div>
+
+                <div class="input-row">
+                    <input type="date" name="date" required>
+
+                    <select name="time" required>
+                        <option value="">Select Time</option>
+                        <option>10:00 AM</option>
+                        <option>12:00 PM</option>
+                        <option>03:00 PM</option>
+                        <option>05:00 PM</option>
+                    </select>
+                </div>
+
+                <textarea name="message" placeholder="Additional Message"></textarea>
+
+                <button type="submit">Confirm Appointment</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-box">
+            <img src="images\logo.png"
+            class="footer-logo">
+            <p>
+                Medicare Plus is a modern healthcare
+                appointment booking platform providing
+                trusted medical services.
+            </p>
+        </div>
+        <div class="footer-box">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="doctors.html">Doctors</a></li>
+                <li><a href="appointment.html">Appointment</a></li>
+                <li><a href="admin.html">Admin</a></li> 
+                <li><a href="my-appointment.html">My Appointments</a></li>  
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-box">
+            <h3>Contact Info</h3>
+            <p>Email: medicareplus@gmail.com</p>
+            <p>Phone: +91 9876543210</p>
+            <p>Coimbatore, Tamil Nadu</p>
+        </div>
+        <div class="footer-box">
+            <h3>Working Hours</h3>
+            <p>Monday - Friday : 8AM - 9PM</p>
+            <p>Saturday : 9AM - 7PM</p>
+            <p>Sunday : Emergency Only</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>
+            © 2026 Medicare Plus.
+            All Rights Reserved.
+        </p>
+    </div>
+</footer>
+
+<!-- SCRIPT -->
+<script src="js/script.js"></script>
+<script src="config.js">
+    if(localStorage.getItem("adminLoggedIn") !== "true"){
+    window.location.href = "login.html"; 
+}
+window.onload = function () {
+
+    const isLoggedIn = localStorage.getItem("adminLoggedIn");
+
+    if(isLoggedIn === "true") {
+
+        document.getElementById("welcomeText").innerText =
+            "Welcome Admin";
+
+    } else {
+        document.getElementById("welcomeText").innerText =
+            "Please Login";
+    }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Login</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+.login-box {
+    width: 350px;
+    margin: 100px auto;
+    padding: 30px;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+
+.login-box h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    background: #0077ff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+    <h2>Admin Login</h2>
+
+   <form onsubmit="login(event)">
+
+    <input type="email" id="email" placeholder="Email"><br><br>
+    <input type="password" id="password" placeholder="Password"><br><br>
+
+    <button type="submit">Login</button>
+
+</form>
+</div>
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-box">
+            <img src="images\logo.png"
+            class="footer-logo">
+            <p>
+                Medicare Plus is a modern healthcare
+                appointment booking platform providing
+                trusted medical services.
+            </p>
+        </div>
+        <div class="footer-box">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="doctors.html">Doctors</a></li>
+                <li><a href="appointment.html">Appointment</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li><a href="my-appointment.html">My Appointments</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-box">
+            <h3>Contact Info</h3>
+            <p>Email: medicareplus@gmail.com</p>
+            <p>Phone: +91 9876543210</p>
+            <p>Coimbatore, Tamil Nadu</p>
+        </div>
+        <div class="footer-box">
+            <h3>Working Hours</h3>
+            <p>Monday - Friday : 8AM - 9PM</p>
+            <p>Saturday : 9AM - 7PM</p>
+            <p>Sunday : Emergency Only</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>
+            © 2026 Medicare Plus.
+            All Rights Reserved.
+        </p>
+    </div>
+</footer>
+<script>
+
+function login(event) {
+    event.preventDefault(); // 🔥 IMPORTANT FIX
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if(email === "admin@gmail.com" && password === "admin123") {
+
+        localStorage.setItem("adminLoggedIn", "true");
+
+        alert("Login Successful");
+
+        window.location.href = "admin.html";
+
+    } else {
+        alert("Invalid Credentials");
+    }
+}
+window.onload = function () {
+
+    const isLoggedIn = localStorage.getItem("adminLoggedIn");
+
+    if(isLoggedIn === "true") {
+
+        document.getElementById("welcomeText").innerText =
+            "Welcome Admin";
+
+    } else {
+        document.getElementById("welcomeText").innerText =
+            "Please Login";
+    }
+};
+</script>
+</body>
+</html>

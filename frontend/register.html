@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+
+<!-- CSS -->
+<link rel="stylesheet" href="css/register.css">
+<link rel="stylesheet" href="css/style.css">
+<!-- Google Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+</head>
+
+<body>
+<nav class="navbar">
+    <div class="container nav-container">
+
+        <!-- Logo -->
+        <div class="logo-section">
+            <img src="images\logo.png" alt="logo" class="logo">
+        </div>
+
+        <!-- Navigation -->
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="doctor.html">All Doctors</a></li>
+            <li><a href="appointment.html">Appointment</a></li>
+            <li><a href="admin.html">Admin</a></li>
+            <li><a href="my-appointment.html">My Appointments</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            
+        
+        </ul>
+
+      <!-- <a href="login.html"
+   class="nav-btn"
+   id="loginBtn">
+    Login
+</a> -->
+    </div>
+</nav>
+<!-- REGISTER FORM -->
+<form id="registerForm">
+
+    <input
+        type="text"
+        id="name"
+        placeholder="Full Name"
+        required
+    >
+
+    <input
+        type="email"
+        id="email"
+        placeholder="Email"
+        required
+    >
+
+    <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        required
+    >
+
+    <button type="submit">Register</button>
+
+</form>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-box">
+            <img src="images\logo.png"
+            class="footer-logo">
+            <p>
+                Medicare Plus is a modern healthcare
+                appointment booking platform providing
+                trusted medical services.
+            </p>
+        </div>
+        <div class="footer-box">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="doctors.html">Doctors</a></li>
+                <li><a href="appointment.html">Appointment</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li><a href="my-appointment.html">My Appointments</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-box">
+            <h3>Contact Info</h3>
+            <p>Email: medicareplus@gmail.com</p>
+            <p>Phone: +91 9876543210</p>
+            <p>Coimbatore, Tamil Nadu</p>
+        </div>
+        <div class="footer-box">
+            <h3>Working Hours</h3>
+            <p>Monday - Friday : 8AM - 9PM</p>
+            <p>Saturday : 9AM - 7PM</p>
+            <p>Sunday : Emergency Only</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>
+            © 2026 Medicare Plus.
+            All Rights Reserved.
+        </p>
+    </div>
+</footer>
+<!-- SCRIPT -->
+<script>
+document.getElementById("registerForm")
+.addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const data = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+    };
+
+    try {
+
+        const response = await fetch("http://localhost:7000/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || "Registration failed");
+        }
+
+        alert("Registered Successfully");
+        window.location.href = "login.html";
+
+    } catch (error) {
+        console.error(error);
+        alert("Registration Failed: " + error.message);
+    }
+
+});
+</script>
+
+</body>
+</html>

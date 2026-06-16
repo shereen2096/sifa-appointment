@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Appointments</title>
+
+<link rel="icon" href="images/logo.png">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+body{
+    font-family: Arial;
+    padding: 20px;
+    background:#f5f9ff;
+}
+
+h1{
+    text-align:center;
+}
+
+table{
+    width:100%;
+    border-collapse: collapse;
+    margin-top:20px;
+    background:white;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+th{
+    background:#0077ff;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <div class="container nav-container">
+
+        <div class="logo-section">
+            <img src="images/logo.png" class="logo">
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="doctor.html">All Doctors</a></li>
+            <li><a href="appointment.html">Appointment</a></li>
+            <li><a href="admin.html">Admin</a></li>
+            <li><a href="my-appointment.html">My Appointments</a></li>
+            <li><a href="about.html">About</a></li>     
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+<!-- 
+        <span id="welcomeText"></span> -->
+
+       <a href="login.html"
+   class="nav-btn"
+   id="loginBtn">
+    Login
+</a>
+
+    </div>
+</nav>
+
+<!-- ================= TITLE ================= -->
+<h1>My Appointments</h1>
+
+<!-- ================= TABLE ================= -->
+<table>
+    <thead>
+        <tr>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody id="myTable"></tbody>
+</table>
+ <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-box">
+            <img src="images\logo.png"
+            class="footer-logo">
+            <p>
+                Medicare Plus is a modern healthcare
+                appointment booking platform providing
+                trusted medical services.
+            </p>
+        </div>
+        <div class="footer-box">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="doctors.html">Doctors</a></li>
+                <li><a href="appointment.html">Appointment</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li><a href="my-appointment.html">My Appointments</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-box">
+            <h3>Contact Info</h3>
+            <p>Email: medicareplus@gmail.com</p>
+            <p>Phone: +91 9876543210</p>
+            <p>Coimbatore, Tamil Nadu</p>
+        </div>
+        <div class="footer-box">
+            <h3>Working Hours</h3>
+            <p>Monday - Friday : 8AM - 9PM</p>
+            <p>Saturday : 9AM - 7PM</p>
+            <p>Sunday : Emergency Only</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>
+            © 2026 Medicare Plus.
+            All Rights Reserved.
+        </p>
+    </div>
+</footer>
+<!-- ================= SCRIPT ================= -->
+<script>
+    const authBtn = document.getElementById("authBtn");
+const welcomeText = document.getElementById("welcomeText");
+
+const userName = localStorage.getItem("userName");
+const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+if (isLoggedIn === "true") {
+
+    welcomeText.innerText = "Welcome " + (userName || "User");
+
+    authBtn.innerText = "Logout";
+    authBtn.href = "#";
+
+    authBtn.onclick = function(e){
+        e.preventDefault();
+        localStorage.clear();
+        window.location.href = "login.html";
+    };
+
+} else {
+    welcomeText.innerText = "";
+    authBtn.innerText = "Login";
+    authBtn.href = "login.html";
+}
+
+const API = "http://localhost:7000";
+
+/* LOAD APPOINTMENTS */
+async function loadAppointments() {
+
+    const userEmail = localStorage.getItem("userEmail");
+
+    if (!userEmail) {
+        alert("Please login first");
+        window.location.href = "login.html";
+        return;
+    }
+
+    const res = await fetch(`${API}/appointments`);
+    const data = await res.json();
+
+    const userAppointments = data.filter(
+        item => item.email === userEmail
+    );
+
+    const table = document.getElementById("myTable");
+
+    let rows = "";
+
+    userAppointments.forEach(item => {
+
+        const status = item.status || "Pending";
+
+        rows += `
+            <tr>
+                <td>${item.doctor}</td>
+                <td>${item.date}</td>
+                <td>${item.time}</td>
+
+                <td style="color:${
+                    status === "Approved" ? "green" :
+                    status === "Rejected" ? "red" :
+                    "orange"
+                }">
+                    ${status}
+                </td>
+
+                <td>
+                    <button onclick="cancelAppointment('${item._id}')"
+                        style="background:red;color:white;padding:5px;border:none;border-radius:5px;">
+                        Cancel
+                    </button>
+                </td>
+            </tr>
+        `;
+    });
+
+    table.innerHTML = rows;
+}
+
+/* CANCEL APPOINTMENT */
+async function cancelAppointment(id) {
+
+    await fetch(`${API}/appointments/${id}`, {
+        method: "DELETE"
+    });
+
+    loadAppointments();
+}
+
+/* NAVBAR LOGIN / LOGOUT */
+window.addEventListener("DOMContentLoaded", function () {
+
+    const userEmail = localStorage.getItem("userEmail");
+
+    const authBtn = document.getElementById("authBtn");
+    const welcomeText = document.getElementById("welcomeText");
+
+    if (userEmail) {
+
+        welcomeText.innerText = "Welcome User";
+
+        authBtn.innerText = "Logout";
+        authBtn.href = "#";
+
+        authBtn.onclick = function () {
+            localStorage.removeItem("userEmail");
+            alert("Logged out");
+            window.location.href = "login.html";
+        };
+
+    } else {
+        welcomeText.innerText = "";
+        authBtn.innerText = "Login";
+        authBtn.href = "login.html";
+    }
+});
+window.onload = function () {
+
+    const isLoggedIn = localStorage.getItem("adminLoggedIn");
+
+    if(isLoggedIn === "true") {
+
+        document.getElementById("welcomeText").innerText =
+            "Welcome Admin";
+
+    } else {
+        document.getElementById("welcomeText").innerText =
+            "Please Login";
+    }
+};
+/* INIT */
+loadAppointments();
+
+</script>
+
+</body>
+</html>
